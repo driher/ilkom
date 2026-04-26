@@ -1,80 +1,61 @@
 "use client";
 
-import { useEffect, useState } from "react";
+type HeroProps = {
+  post?: any;
+};
 
-export default function Hero() {
-  const slides = [
-    "images/selamat-1.jpeg",
-    "images/selamat-2.jpeg",
-    "images/selamat-3.jpeg",
-  ];
+export default function Hero({ post }: HeroProps) {
+  const title =
+    post?.title?.rendered || "Ilmu Komunikasi UIN Sunan Gunung Djati Bandung";
 
-  const [index, setIndex] = useState(0);
+  const excerpt =
+    post?.excerpt?.rendered ||
+    "Membangun generasi komunikator yang profesional, kreatif, dan berintegritas.";
 
-  // AUTO SLIDE
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // NEXT
-  const nextSlide = () => {
-    setIndex((prev) => (prev + 1) % slides.length);
-  };
-
-  // PREV
-  const prevSlide = () => {
-    setIndex((prev) =>
-      prev === 0 ? slides.length - 1 : prev - 1
-    );
-  };
+  const image =
+    post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+    "/images/selamat-1.jpeg";
 
   return (
-    <div className="relative overflow-hidden">
-
-      {/* IMAGE */}
+    <section className="relative w-full h-[500px] overflow-hidden">
+      {/* Background Image */}
       <img
-        src={slides[index]}
-        className="w-full h-[500px] object-cover transition-all duration-700"
+        src={image}
+        alt="Hero"
+        className="absolute w-full h-full object-cover"
       />
 
-      {/* OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-r from-orange-500/90 via-pink-400/70 to-pink-200/60"></div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
 
-      {/* TEXT */}
-      <div className="absolute inset-0 flex items-center max-w-6xl mx-auto px-6">
-        <div className="text-white max-w-xl">
-          <h1 className="text-5xl font-extrabold leading-tight">
-            Selamat Datang Mahasiswa Baru
-          </h1>
-          <p className="mt-4 text-lg">
-            Ilmu Komunikasi Konsentrasi Humas dan Konsentrasi Jurnalistik
-          </p>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col justify-center items-start h-full max-w-6xl mx-auto px-6 text-white">
+        <h1
+          className="text-3xl md:text-5xl font-bold mb-4"
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
 
-          <button className="mt-6 bg-white text-orange-600 px-6 py-2 rounded-full font-semibold">
-            Kembangkan Kemampuan & Jadilah Profesional
-          </button>
+        <p
+          className="max-w-xl mb-6 text-sm md:text-lg opacity-90"
+          dangerouslySetInnerHTML={{ __html: excerpt }}
+        />
+
+        <div className="flex gap-3">
+          <a
+            href="/berita"
+            className="bg-blue-400 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold transition"
+          >
+            Lihat Berita
+          </a>
+
+          <a
+            href="#konsentrasi"
+            className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-2 rounded-lg font-semibold transition"
+          >
+            Konsentrasi
+          </a>
         </div>
       </div>
-
-      {/* BUTTON LEFT */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/60"
-      >
-        ‹
-      </button>
-
-      {/* BUTTON RIGHT */}
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/60"
-      >
-        ›
-      </button>
-    </div>
+    </section>
   );
 }

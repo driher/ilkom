@@ -1,4 +1,3 @@
-import { getPosts } from "@/lib/api";
 import { translate } from "@/lib/translate";
 
 export default async function Page({

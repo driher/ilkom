@@ -14,9 +14,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// ✅ SINGLE METADATA (BENAR)
 export const metadata: Metadata = {
   title: "Portal Berita",
   description: "Website berita",
+  alternates: {
+    languages: {
+      id: "/id",
+      en: "/en",
+      ar: "/ar",
+      zh: "/zh",
+    },
+  },
 };
 
 export default function RootLayout({
@@ -25,19 +34,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="id"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="min-h-screen flex flex-col bg-white text-black">
 
         {/* NAVBAR GLOBAL */}
         <Navbar />
 
         {/* CONTENT */}
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
 
-  {/* FLOATING WHATSAPP BUTTON */}
-  <FloatingWA />
+        {/* FLOATING WHATSAPP */}
+        <FloatingWA />
 
       </body>
     </html>

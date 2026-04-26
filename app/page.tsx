@@ -3,29 +3,47 @@ import Link from "next/link";
 import Image from "next/image";
 import { getPostsByCategory } from "@/lib/api";
 import PopularLinks from "@/components/PopularLinks";
+import JurusanCard from "@/components/JurusanCard";
+import SearchBar from "@/components/SearchBar";
 
 export default async function Home() {
-  const posts = await getPostsByCategory(38).catch(() => []);
+  let posts: any[] = [];
+
+  try {
+    posts = await getPostsByCategory(38);
+  } catch (err) {
+    console.error("Failed fetch posts:", err);
+    posts = [];
+  }
 
   const hero = posts?.[0] || null;
   const news = posts?.slice(1, 9) || [];
 
   return (
-    <div>
+    <main>
 
       {/* HERO */}
-      <Hero />
+      {hero && <Hero post={hero} />}
 
-      {/* BERITA SLIDER */}
-      <div className="max-w-6xl mx-auto p-4">
-        <h2 className="text-lg font-bold mb-3">Berita Terbaru</h2>
+      {/* SEARCH */}
+      <div className="max-w-5xl mx-auto px-4 mt-6">
+        <SearchBar />
+      </div>
+
+      {/* BERITA */}
+      <section className="max-w-6xl mx-auto p-4 py-10">
+
+        <h2 className="text-lg font-bold mb-3">
+          Berita & Agenda
+        </h2>
 
         <div className="flex gap-4 overflow-x-auto scroll-smooth pb-3">
 
           {news.length > 0 ? (
             news.map((post: any) => {
               const image =
-                post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+                post?._embedded?.["wp:featuredmedia"]?.[0]
+                  ?.source_url;
 
               return (
                 <Link
@@ -55,17 +73,30 @@ export default async function Home() {
               );
             })
           ) : (
-            <p className="text-sm text-gray-500">Tidak ada berita</p>
+            <p className="text-sm text-gray-500">
+              Tidak ada berita
+            </p>
           )}
 
         </div>
-      </div>
+      </section>
 
       {/* POPULAR LINKS */}
-      <div className="max-w-6xl mx-auto p-4">
+      <section className="max-w-6xl mx-auto p-4">
         <PopularLinks />
-      </div>
+      </section>
 
-    </div>
+      {/* JURUSAN */}
+      <section className="py-10">
+        <div className="max-w-6xl mx-auto px-4">
+          <JurusanCard
+ wpTextIlkom="Ketua Jurusan Ilmu Komunikasi bertugas mengelola komunikasi publik dan hubungan eksternal kampus."
+            wpTextHumas="Ketua Jurusan Humas bertugas mengelola komunikasi publik dan hubungan eksternal kampus."
+            wpTextJurnalistik="Ketua Jurusan Jurnalistik bertugas mengelola berita, dokumentasi, dan konten kampus."
+          />
+        </div>
+      </section>
+
+    </main>
   );
 }

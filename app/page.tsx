@@ -14,7 +14,7 @@ export default async function Home() {
     <div>
 
       {/* HERO */}
-      {hero && <Hero post={hero} />}
+      <Hero />
 
       {/* BERITA SLIDER */}
       <div className="max-w-6xl mx-auto p-4">

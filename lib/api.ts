@@ -1,4 +1,6 @@
 import { API_URL } from "./config";
+import { getPosts } from "@/lib/api";
+
 
 /* =========================
    GET POSTS (FIXED ALIAS)

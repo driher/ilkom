@@ -1,3 +1,4 @@
+import { getPosts } from "@/lib/api";
 import { translate } from "@/lib/translate";
 
 export default async function Page({
@@ -14,20 +15,13 @@ export default async function Page({
       return {
         id: post.id,
         slug: post.slug,
-        title: await translate(
-          post.title.rendered,
-          lang
-        ),
+        title: await translate(post.title.rendered, lang),
       };
     })
   );
 
   return (
-    <main
-      className={
-        lang === "ar" ? "rtl text-right" : ""
-      }
-    >
+    <main className={lang === "ar" ? "rtl text-right" : ""}>
       <h1 className="text-2xl font-bold p-4">
         Portal Berita ({lang.toUpperCase()})
       </h1>

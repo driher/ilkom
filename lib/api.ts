@@ -1,6 +1,11 @@
 import { API_URL } from "./config";
 
 /* =========================
+   GET POSTS (FIXED ALIAS)
+========================= */
+export const getPosts = getPostsByCategory;
+
+/* =========================
    GET POSTS BY CATEGORY
 ========================= */
 export async function getPostsByCategory(categoryId: number = 38) {
@@ -11,9 +16,7 @@ export async function getPostsByCategory(categoryId: number = 38) {
     );
 
     if (!res.ok) {
-      throw new Error(
-        `Gagal ambil posts kategori ${categoryId}`
-      );
+      throw new Error(`Gagal ambil posts kategori ${categoryId}`);
     }
 
     return await res.json();
@@ -51,9 +54,7 @@ export async function getPostBySlug(slug: string) {
 export async function searchPosts(keyword: string) {
   try {
     const res = await fetch(
-      `${API_URL}/posts?search=${encodeURIComponent(
-        keyword
-      )}&_embed`,
+      `${API_URL}/posts?search=${encodeURIComponent(keyword)}&_embed`,
       { cache: "no-store" }
     );
 

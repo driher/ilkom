@@ -7,7 +7,6 @@ export default async function Page({
   params: { lang: string };
 }) {
   const posts = await getPosts();
-
   const lang = params.lang;
 
   const translatedPosts = await Promise.all(
